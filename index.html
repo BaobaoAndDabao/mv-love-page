@@ -401,161 +401,76 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* ========== 美化后的消息模块 ========== */
+        /* 特殊消息模块 - 模仿 index_old 的 Surprise 效果 */
         .special-messages {
-            background: linear-gradient(135deg, #FFF8F0, #FFF0E8);
-            border-radius: 40px;
-            padding: 40px 30px;
-            margin: 40px 0 30px;
+            background: white;
+            border-radius: 28px;
+            padding: 40px 35px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             text-align: center;
-            border: 2px solid var(--coral);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-            position: relative;
-            overflow: hidden;
-        }
-        .special-messages::before {
-            content: "✨";
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-size: 2rem;
-            opacity: 0.3;
-        }
-        .special-messages::after {
-            content: "✨";
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 2rem;
-            opacity: 0.3;
         }
         .special-messages h3 {
             font-family: 'Righteous', cursive;
             font-size: 1.8rem;
             color: var(--soft-red);
+            margin-bottom: 15px;
+        }
+        .special-messages > p {
+            color: var(--text);
+            font-size: 1.1rem;
             margin-bottom: 30px;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 10px;
         }
-        .special-messages h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            width: 50%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--coral), var(--soft-red), var(--coral), transparent);
-            border-radius: 3px;
-        }
-
-        .message-list-vertical {
+        .surprise-grid {
             display: flex;
             flex-direction: column;
             gap: 18px;
-            max-width: 650px;
+            max-width: 550px;
             margin: 0 auto;
         }
-
-        /* 美化后的消息卡片 */
-        .message-row {
-            background: white;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 179, 217, 0.3);
+        .surprise-item {
+            width: 100%;
         }
-        .message-row:hover {
-            box-shadow: 0 12px 28px rgba(255, 107, 157, 0.15);
-            transform: translateY(-2px);
-            border-color: var(--coral);
-        }
-
-        .message-trigger {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            padding: 18px 24px;
+        .surprise-btn {
+            background: linear-gradient(135deg, var(--coral) 0%, var(--soft-red) 100%);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, white, #FFFDF8);
-        }
-        .message-trigger:hover {
-            background: linear-gradient(135deg, #FFF9F5, #FFF5F0);
-        }
-
-        /* 左侧emoji圆形背景 */
-        .trigger-emoji {
-            font-size: 2rem;
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #FFE5F1, #FFD9E8);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(255,107,157,0.2);
-        }
-        .message-trigger:hover .trigger-emoji {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(255,107,157,0.35);
-        }
-
-        /* 中间文字 */
-        .trigger-text {
-            flex: 1;
-            text-align: left;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--soft-red);
+            width: 100%;
             font-family: 'Fredoka', sans-serif;
-            letter-spacing: 0.5px;
-        }
-
-        /* 右侧箭头图标 */
-        .trigger-icon {
-            font-size: 1.2rem;
-            color: var(--coral);
-            transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
-            background: rgba(255, 143, 171, 0.1);
-            width: 32px;
-            height: 32px;
+            box-shadow: 0 6px 14px rgba(255,107,157,0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            gap: 12px;
         }
-        .message-row.open .trigger-icon {
-            transform: rotate(180deg);
-            background: rgba(255, 143, 171, 0.2);
+        .surprise-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(255,107,157,0.4);
         }
-
-        /* 展开内容区域 */
-        .message-content {
+        .surprise-message {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #FFFEF8;
-            border-top: 1px solid transparent;
-        }
-        .message-row.open .message-content {
-            max-height: 200px;
-            border-top-color: rgba(255, 143, 171, 0.3);
-        }
-        .message-text {
-            padding: 22px 25px;
-            font-size: 1rem;
-            line-height: 1.65;
-            color: var(--text);
-            text-align: left;
-            background: linear-gradient(135deg, #FFF9F5, #FFFCF8);
+            background: var(--cream);
             border-radius: 20px;
-            margin: 0 20px 20px 20px;
-            border-left: 5px solid var(--coral);
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.03);
-            font-family: 'DM Sans', sans-serif;
+            padding: 0 25px;
+            margin-top: 8px;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.7;
+            border-left: 4px solid var(--coral);
+            text-align: left;
+        }
+        .surprise-message.show {
+            max-height: 300px;
+            padding: 20px 25px;
+            margin-top: 12px;
         }
 
         @keyframes zoomIn {
@@ -589,11 +504,10 @@
             .envelope { width: 180px; height: 130px; }
             .cake-3d-container { height: 380px; }
             .roses-message p { font-size: 1.1rem; }
-            .trigger-emoji { width: 44px; height: 44px; font-size: 1.6rem; }
-            .trigger-text { font-size: 0.95rem; }
-            .message-text { font-size: 0.9rem; padding: 16px 18px; margin: 0 15px 15px 15px; }
-            .special-messages { padding: 30px 20px; }
             .rose-corner { font-size: 1.5rem; top: 8px; right: 8px; }
+            .surprise-btn { font-size: 1rem; padding: 12px 18px; }
+            .surprise-message.show { padding: 15px 18px; font-size: 0.9rem; }
+            .special-messages { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -852,6 +766,7 @@
             }, 100);
         }
 
+        // 特殊消息模块 - 模仿 index_old 的 Surprise 效果，使用按钮点击展开/收起
         function addSpecialMessages() {
             const container = document.querySelector('.container');
             const existingSpecial = document.getElementById('specialMessagesSection');
@@ -859,36 +774,25 @@
 
             const specialHTML = `
                 <div id="specialMessagesSection" class="special-messages">
-                    <h3>🎂 Some special messages for your birthday 💕</h3>
-                    <div class="message-list-vertical">
-                        <div class="message-row" data-msg="1">
-                            <div class="message-trigger">
-                                <div class="trigger-emoji">💖</div>
-                                <div class="trigger-text">You are very special not only today but everyday</div>
-                                <div class="trigger-icon">▼</div>
-                            </div>
-                            <div class="message-content">
-                                <div class="message-text">💖 You are very special not only today but everyday. Keep that in your mind.</div>
+                    <h3>💌 Special Messages For You 💌</h3>
+                    <p style="color: var(--text); font-size: 1.1rem;">Click each button to reveal a sweet message!</p>
+                    <div class="surprise-grid">
+                        <div class="surprise-item">
+                            <button class="surprise-btn" onclick="toggleSpecialMessage(1)">💖 You are very special 💖</button>
+                            <div class="surprise-message" id="specialMsg1">
+                                You are very special not only today but everyday. Keep that in your mind. ✨
                             </div>
                         </div>
-                        <div class="message-row" data-msg="2">
-                            <div class="message-trigger">
-                                <div class="trigger-emoji">✨</div>
-                                <div class="trigger-text">Your presence brings smiles to the people around you</div>
-<!--                                <div class="trigger-icon">▼</div>-->
-                            </div>
-                            <div class="message-content">
-                                <div class="message-text">✨ Your presence brings smiles to the people around you.</div>
+                        <div class="surprise-item">
+                            <button class="surprise-btn" onclick="toggleSpecialMessage(2)">✨ Your presence brings smiles ✨</button>
+                            <div class="surprise-message" id="specialMsg2">
+                                Your presence brings smiles to the people around you. You light up every room you enter! 🌟
                             </div>
                         </div>
-                        <div class="message-row" data-msg="3">
-                            <div class="message-trigger">
-                                <div class="trigger-emoji">🌹</div>
-                                <div class="trigger-text">Enjoy this day with your family & cherish every moment</div>
-                                <div class="trigger-icon">▼</div>
-                            </div>
-                            <div class="message-content">
-                                <div class="message-text">🌹 I hope you are enjoying this day with your family and cherishing every single moment.</div>
+                        <div class="surprise-item">
+                            <button class="surprise-btn" onclick="toggleSpecialMessage(3)">🌹 Enjoy your special day 🌹</button>
+                            <div class="surprise-message" id="specialMsg3">
+                                I hope you are enjoying this day with your family and cherishing every single moment. You deserve all the happiness in the world! 🎂💕
                             </div>
                         </div>
                     </div>
@@ -902,26 +806,14 @@
                 container.insertAdjacentHTML('beforeend', specialHTML);
             }
 
-            // 绑定点击事件 - 垂直列表点击展开/收起
-            const messageRows = document.querySelectorAll('.message-row');
-            messageRows.forEach(row => {
-                const trigger = row.querySelector('.message-trigger');
-                trigger.addEventListener('click', () => {
-                    const isOpen = row.classList.contains('open');
-                    // 关闭其他所有打开的（可选，如果想同时打开多个可以注释这行）
-                    messageRows.forEach(r => {
-                        if(r !== row && r.classList.contains('open')) {
-                            r.classList.remove('open');
-                        }
-                    });
-                    if(isOpen) {
-                        row.classList.remove('open');
-                    } else {
-                        row.classList.add('open');
-                        create2DConfetti(15);
-                    }
-                });
-            });
+            // 绑定全局函数
+            window.toggleSpecialMessage = function(num) {
+                const msgElement = document.getElementById('specialMsg' + num);
+                if(msgElement) {
+                    msgElement.classList.toggle('show');
+                    create2DConfetti(20);
+                }
+            };
         }
 
         function create2DConfetti(count = 80) {
