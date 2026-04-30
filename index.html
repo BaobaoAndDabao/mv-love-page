@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MV终极作品</title>
+
+<style>
+
+/* ================= 基础背景 ================= */
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial;
+    background: radial-gradient(circle at 30% 30%, #111827, #000 70%);
+    color: white;
+    transition: transform 0.08s linear;
+}
+
+/* 暗角 */
+body::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8));
+}
+
+/* ================= 信封 ================= */
+.envelope-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.8s;
+}
+
+.hide {
+    transform: translate(-50%, -200%) scale(0.5);
+    opacity: 0;
+}
+
+.envelope {
+    width: 360px;
+    height: 240px;
+
+    position: relative;
+    border-radius: 18px;
+
+    /* 🌈 高级渐变 */
+    background: linear-gradient(
+        145deg,
+        rgba(255, 77, 109, 0.85),
+        rgba(255, 143, 163, 0.9),
+        rgba(255, 170, 190, 0.85)
+    );
+
+    /* ✨ 玻璃质感 */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* 💎 立体阴影 */
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.3),
+        inset 0 -10px 30px rgba(0,0,0,0.2);
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    /* 🌊 呼吸动画 */
+    animation: envelopeBreath 3.5s ease-in-out infinite;
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    box-shadow:
+        inset 0 0 20px rgba(255,255,255,0.1),
+        inset 0 -20px 40px rgba(0,0,0,0.2);
+
+    pointer-events: none;
+}
+
+@keyframes envelopeBreath {
+    0%,100% {
+        transform: scale(1);
+        box-shadow:
+            0 30px 80px rgba(0,0,0,0.5),
+            0 0 0 rgba(255,77,109,0);
+    }
+
+    50% {
+        transform: scale(1.03);
+        box-shadow:
+            0 40px 100px rgba(0,0,0,0.6),
+            0 0 40px rgba(255,77,109,0.3);
+    }
+}
+.envelope::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+
+    background: radial-gradient(
+        circle,
+        rgba(255,255,255,0.25),
+        transparent 60%
+    );
+
+    animation: glowMove 5s linear infinite;
+    mix-blend-mode: screen;
+}
+
+@keyframes glowMove {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+.letter {
+    position: absolute;
+    width: 320px;
+    height: 200px;
+    left: 10px;
+    bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 14px;
+
+    /* 🌈 不要纯白，改成暖玻璃 */
+    background: linear-gradient(
+        145deg,
+        rgba(255, 245, 247, 0.95),
+        rgba(255, 230, 235, 0.85)
+    );
+
+    /* ✨ 玻璃质感 */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* 💎 阴影 */
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+
+    /* 🎨 字体颜色改为更柔和 */
+    color: #ff4d6d;
+    font-weight: bold;
+
+    transition: 0.4s;
+}
+
+
+.open .envelope::before {
+    transform: rotateX(180deg);
+}
+.open .letter {
+    transform: translateY(-120px);
+    opacity: 0;
+}
+
+/* ================= 歌词 ================= */
+.lyrics-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: 1s;
+}
+
+.show {
+    opacity: 1;
+}
+
+.lyrics {
+    transition: transform 0.6s ease;
+}
+
+.line {
+    height: 60px;
+    line-height: 60px;
+    font-size: 22px;
+    opacity: 0.25;
+    color: rgba(255,255,255,0.6);
+    transition: 0.4s;
+}
+
+.active {
+    font-size: 38px;
+    font-weight: bold;
+    background: linear-gradient(90deg,#ff4d6d,#ff9a9e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255,77,109,0.5);
+    opacity: 1;
+}
+
+/* ================= 粒子 ================= */
+.particle {
+    position: absolute;
+    bottom: -20px;
+    pointer-events: none;
+    animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(0.5); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-120vh) scale(2); opacity: 0; }
+}
+
+.big-heart {
+    font-size: 56px;
+    animation: heartbeat 1.2s ease-in-out infinite;
+
+    filter:
+        drop-shadow(0 0 10px rgba(255,77,109,0.6))
+        drop-shadow(0 0 30px rgba(255,77,109,0.3));
+}
+
+@keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+
+@keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="bgm" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 信封 -->
+<div class="envelope-wrapper" id="env">
+    <div class="envelope">
+        <div class="letter">
+    <span class="big-heart">❤️</span>
+    Happy Birthday
+</div>
+    </div>
+</div>
+
+<!-- 歌词 -->
+<div class="lyrics-container" id="lyricsBox">
+    <div class="lyrics" id="lyrics"></div>
+</div>
+
+<script>
+
+/* ================= 歌词 ================= */
+const lines = [
+"Meeting you felt like the universe quietly rewriting my story.",
+"I didn’t believe in fate, until your name started appearing in every thought I had.",
+"The world didn’t change… but somehow everything became softer after you arrived.",
+
+"I began to notice beauty in ordinary things—just because you exist somewhere in the same world.",
+"Even silence feels different now, like it’s gently saying your name between the seconds.",
+
+"If time ever stops, I hope it stops between your laughter and my heartbeat.",
+"I don’t need forever… just every version of today, as long as you’re in it.",
+
+"And if love is a place, then I’ve already moved in without unpacking my heart.",
+"I don’t know what the future looks like, but I hope it learns how to look like you.",
+
+"Somewhere between coincidence and destiny, I found you—and I stopped asking questions."
+];
+
+const lyricsDiv = document.getElementById("lyrics");
+
+lines.forEach(t=>{
+    let d = document.createElement("div");
+    d.className = "line";
+    d.innerText = t;
+    lyricsDiv.appendChild(d);
+});
+
+const lineElements = document.querySelectorAll(".line");
+let index = 0;
+
+/* ================= 音频分析 ================= */
+let audioCtx, analyser, dataArray, source;
+let bass = 0;
+let energy = 0;
+
+function initAudio(){
+    const audio = document.getElementById("bgm");
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
+
+    source = audioCtx.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+
+    analyser.fftSize = 256;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+}
+
+function analyze(){
+    analyser.getByteFrequencyData(dataArray);
+
+    let low=0, mid=0, high=0;
+
+    for(let i=0;i<dataArray.length;i++){
+        if(i<10) low+=dataArray[i];
+        else if(i<50) mid+=dataArray[i];
+        else high+=dataArray[i];
+    }
+
+    bass = low/10/255;
+    energy = (low+mid+high)/dataArray.length/255;
+}
+
+/* ================= 镜头震动 ================= */
+function shake(){
+    if(bass>0.25){
+        const x = (Math.random()-0.5)*bass*25;
+        const y = (Math.random()-0.5)*bass*25;
+        document.body.style.transform = `translate(${x}px,${y}px)`;
+        setTimeout(()=>document.body.style.transform="translate(0,0)",60);
+    }
+}
+
+/* ================= 镜头缩放 ================= */
+function zoom(){
+    const scale = 1 + energy*0.08;
+    document.body.style.transform += ` scale(${scale})`;
+}
+
+/* ================= 粒子 ================= */
+const particles = ["❤️","💖","💕","💘","✨","🍃","🌿","🌾","🌸","💫"];
+
+function createParticle(){
+    const p = document.createElement("div");
+    p.className = "particle";
+
+    const arr = ["❤️","💖","💕","💘","✨","🍃","🌿","🌾","🌸","💫"];
+
+    p.innerText = arr[Math.floor(Math.random()*arr.length)];
+
+    // 🌌 全屏随机（更“漫天”）
+    p.style.left = Math.random()*100 + "vw";
+    p.style.top = Math.random()*100 + "vh";
+
+    // 🌊 速度分层
+    const depth = Math.random();
+
+    const size = 8 + (1-depth)*40;
+    p.style.fontSize = size + "px";
+
+    const speed = 2 + depth*4;
+    p.style.animationDuration = speed + "s";
+
+    // ✨ 更强发光
+    p.style.opacity = 0.3 + (1-depth);
+
+    document.body.appendChild(p);
+
+    setTimeout(()=>p.remove(),6000);
+}
+/* ================= 歌词滚动 ================= */
+function lyric(){
+    if(index>0) lineElements[index-1].classList.remove("active");
+
+    if(index < lineElements.length){
+        lineElements[index].classList.add("active");
+
+        const offset = index * 60;
+        lyricsDiv.style.transform =
+        `translateY(calc(50vh - ${offset}px - 30px))`;
+
+        index++;
+    } else {
+        // 🔁 关键：循环
+        index = 0;
+
+        lineElements.forEach(l => l.classList.remove("active"));
+
+        setTimeout(() => {
+            lyric();
+        }, 800);
+    }
+}
+/* ================= MV主循环 ================= */
+function loop() {
+    analyze();
+    shake();
+    zoom();
+
+    // 🌫️ 1. 永久背景粒子（关键！）
+    createParticle();
+
+    // 🌊 2. 音乐驱动密度（不是if，而是概率）
+    const density = energy * 2;
+
+    for (let i = 0; i < density; i++) {
+        createParticle();
+    }
+
+    requestAnimationFrame(loop);
+
+    if (bass > 0.2) {
+    for (let i = 0; i < 10; i++) {
+        setTimeout(() => createParticle(), i * 30);
+    }
+}
+}
+
+
+/* ================= 启动 ================= */
+document.getElementById("env").onclick = () => {
+
+    const env = document.getElementById("env");
+
+    env.classList.add("open");
+    document.getElementById("bgm").play();
+
+    setTimeout(()=>{
+
+        env.classList.add("hide");
+        document.getElementById("lyricsBox").classList.add("show");
+
+        lyric();
+        setInterval(lyric,2000);
+
+        if(!audioCtx) initAudio();
+        loop();
+
+    },1200);
+};
+
+</script>
+
+</body>
+</html>
