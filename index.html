@@ -356,21 +356,105 @@
             border-left: 5px solid var(--coral);
         }
 
-        .cake-3d-container {
-            width: 100%;
-            height: 480px;
-            margin: 30px 0;
-            border-radius: 32px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        /* ---------------- CSS 2D 蛋糕样式 ---------------- */
+        .cake-2d-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px 0 30px;
+            min-height: 250px;
+        }
+        .cake-2d {
             position: relative;
-            background: radial-gradient(ellipse at center, #1a1a3e 0%, #0a0a2a 100%);
+            width: 200px;
+            height: 180px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
         }
-        .cake-3d-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block;
+        .cake-2d:hover {
+            transform: translateY(-5px) scale(1.03);
         }
+        .cake-plate {
+            position: absolute;
+            bottom: 0;
+            left: -30px;
+            width: 260px;
+            height: 24px;
+            background: #e0e4e8;
+            border-radius: 50%;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .cake-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 12px;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.05);
+        }
+        .cake-bottom {
+            bottom: 12px;
+            width: 190px;
+            height: 70px;
+            background: var(--pink);
+        }
+        .cake-top {
+            bottom: 82px;
+            width: 140px;
+            height: 65px;
+            background: var(--coral);
+        }
+        .icing {
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 100%;
+            height: 25px;
+            background: white;
+            border-radius: 12px 12px 20px 20px;
+        }
+        .icing::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 10%;
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 30px 10px 0 0 white, 60px 5px 0 0 white, 90px 12px 0 0 white, 110px 4px 0 0 white;
+        }
+        .cake-top .icing::after {
+            box-shadow: 25px 8px 0 0 white, 55px 12px 0 0 white, 85px 5px 0 0 white, 100px 8px 0 0 white;
+        }
+        .candle {
+            position: absolute;
+            bottom: 145px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 45px;
+            background: repeating-linear-gradient(45deg, white, white 5px, var(--gold) 5px, var(--gold) 10px);
+            border-radius: 4px;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.1);
+        }
+        .flame {
+            position: absolute;
+            bottom: 195px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 24px;
+            background: #ffaa00;
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 15px #ffcc00, 0 0 30px #ffaa00;
+            animation: flicker 0.5s infinite alternate;
+            transition: all 0.2s;
+        }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(0.9) rotate(-3deg); opacity: 0.9; }
+            100% { transform: translateX(-50%) scale(1.1) rotate(3deg); opacity: 1; }
+        }
+
         .cake-controls {
             margin-top: 15px;
             display: flex;
@@ -401,7 +485,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* 特殊消息模块 - 模仿 index_old 的 Surprise 效果 */
         .special-messages {
             background: white;
             border-radius: 28px;
@@ -496,18 +579,17 @@
         }
         footer { text-align: center; padding: 30px 20px; opacity: 0.8; }
         .hidden { display: none; }
-        .mood-note { background: #FFF0F5; padding: 12px 20px; border-radius: 60px; margin: 15px auto; font-size: 1.1rem; }
 
         @media (max-width: 680px) {
             .mood-btn { padding: 12px 20px; font-size: 1.1rem; }
             .yes-btn, .no-btn { font-size: 1.5rem; padding: 14px 32px; }
             .envelope { width: 180px; height: 130px; }
-            .cake-3d-container { height: 380px; }
             .roses-message p { font-size: 1.1rem; }
             .rose-corner { font-size: 1.5rem; top: 8px; right: 8px; }
             .surprise-btn { font-size: 1rem; padding: 12px 18px; }
             .surprise-message.show { padding: 15px 18px; font-size: 0.9rem; }
             .special-messages { padding: 30px 20px; }
+            .cake-2d { transform: scale(0.9); }
         }
     </style>
 </head>
@@ -552,13 +634,11 @@
                     <div class="photo-placeholder">🍰💫</div>
                     <div class="photo-content"><img src="3.jpg" alt="Memory 3" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 350\'%3E%3Crect width=\'400\' height=\'350\' fill=\'%23FFE2F0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'22\' fill=\'%23FF6B9D\' text-anchor=\'middle\'%3E💗 3.jpg%3C/text%3E%3C/svg%3E'"><div class="photo-caption">💗 Your fav picture 💗</div></div>
                 </div>
-
                 <div class="photo-card" onclick="revealPhoto(this)">
                     <div class="rose-corner">🌹💗🌹🎀</div>
                     <div class="photo-placeholder">🍰💫</div>
                     <div class="photo-content"><img src="4.jpg" alt="Memory 3" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 350\'%3E%3Crect width=\'400\' height=\'350\' fill=\'%23FFE2F0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'22\' fill=\'%23FF6B9D\' text-anchor=\'middle\'%3E💗 3.jpg%3C/text%3E%3C/svg%3E'"><div class="photo-caption">💗 My favorite picture 💗</div></div>
                 </div>
-
             </div>
         </div>
 
@@ -587,19 +667,7 @@
     </div>
     <audio id="bgMusic" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
-    </script>
-
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
+    <script>
         function createFloatingHearts() {
             const container = document.getElementById('bgHearts');
             if(!container) return;
@@ -752,19 +820,29 @@
                     create2DConfetti(40);
 
                     setTimeout(() => {
-                        if(!document.getElementById('cake3dSection')) {
-                            const cake3DHTML = `
-                                <div id="cake3dSection" style="margin-top: 30px;">
-                                    <h3 class="section-title">🎂 Click the cake to make a wish! 🎂</h3>
-                                    <div class="cake-3d-container" id="cake3dContainer"></div>
+                        if(!document.getElementById('cakeSection')) {
+                            const cakeHTML = `
+                                <div id="cakeSection" style="margin-top: 30px;">
+                                    <h3 class="section-title">🎂 Tap the cake to make a wish! 🎂</h3>
+
+                                    <div class="cake-2d-container">
+                                        <div class="cake-2d" id="interactiveCake">
+                                            <div class="cake-plate"></div>
+                                            <div class="cake-layer cake-bottom"><div class="icing"></div></div>
+                                            <div class="cake-layer cake-top"><div class="icing"></div></div>
+                                            <div class="candle"></div>
+                                            <div class="flame" id="cakeFlame"></div>
+                                        </div>
+                                    </div>
+
                                     <div class="cake-controls">
                                         <button class="cake-btn" id="resetCakeBtn">🔄 Reset Wishes</button>
                                     </div>
                                     <div id="cakeWishCounter" style="text-align:center; margin-top:15px; font-weight:bold; color:#FF8FAB;">✨ wish count: <span id="cakeClickCount">0</span> ✨</div>
                                 </div>
                             `;
-                            secondCard.insertAdjacentHTML('beforeend', cake3DHTML);
-                            init3DCake();
+                            secondCard.insertAdjacentHTML('beforeend', cakeHTML);
+                            init2DCake();
                         }
                     }, 400);
                 });
@@ -773,7 +851,56 @@
             }, 100);
         }
 
-        // 特殊消息模块 - 模仿 index_old 的 Surprise 效果，使用按钮点击展开/收起
+        // 2D 蛋糕互动逻辑
+        function init2DCake() {
+            let cakeClickCount = 0;
+            const cake = document.getElementById('interactiveCake');
+            const flame = document.getElementById('cakeFlame');
+            const counter = document.getElementById('cakeClickCount');
+            const resetBtn = document.getElementById('resetCakeBtn');
+
+            cake.addEventListener('click', () => {
+                cakeClickCount++;
+                counter.textContent = cakeClickCount;
+                create2DConfetti(20);
+
+                // 火焰点击特效
+                flame.style.transform = 'translateX(-50%) scale(1.6)';
+                setTimeout(() => {
+                    flame.style.transform = 'translateX(-50%) scale(1)';
+                }, 150);
+
+                if (cakeClickCount === 1) {
+                    setTimeout(() => {
+                        const finalMsgDiv = document.createElement('div');
+                        finalMsgDiv.className = 'final-birthday-message';
+                        finalMsgDiv.id = 'finalCakeMessage';
+                        finalMsgDiv.innerHTML = `
+                            <div style="font-size: 2.5rem;">🎂💕</div>
+                            <p style="font-size: 1.2rem; line-height: 1.7; margin: 15px 0;">
+                            Hey Pinju 💗<br><br>
+                            I don’t know why, but I just had a feeling you might be cutting your cake right now. Made me smile thinking about it.<br><br>
+                            I hope you’re surrounded by love and having a really special moment.<br><br>
+                            Happy birthday Pinju again 🤍
+                            </p>
+                            <div style="font-size: 2rem;">🎉🎂✨</div>
+                        `;
+                        document.getElementById('cakeSection').appendChild(finalMsgDiv);
+                        create2DConfetti(150);
+                        addSpecialMessages();
+                    }, 300);
+                }
+            });
+
+            resetBtn.addEventListener('click', () => {
+                cakeClickCount = 0;
+                counter.textContent = cakeClickCount;
+                const finalMsg = document.getElementById('finalCakeMessage');
+                if(finalMsg) finalMsg.remove();
+                create2DConfetti(30);
+            });
+        }
+
         function addSpecialMessages() {
             const container = document.querySelector('.container');
             const existingSpecial = document.getElementById('specialMessagesSection');
@@ -813,7 +940,6 @@
                 container.insertAdjacentHTML('beforeend', specialHTML);
             }
 
-            // 绑定全局函数
             window.toggleSpecialMessage = function(num) {
                 const msgElement = document.getElementById('specialMsg' + num);
                 if(msgElement) {
@@ -847,295 +973,6 @@
         const styleEl = document.createElement('style');
         styleEl.textContent = `@keyframes confettiFall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
         document.head.appendChild(styleEl);
-
-        let cakeScene, cakeCamera, cakeRenderer, cakeControls, cakeGroup, activeParticles = [];
-        let cakeClickCount = 0;
-        let colorLightObj, flameObj;
-
-        function init3DCake() {
-            const container = document.getElementById('cake3dContainer');
-            if(!container) return;
-
-            cakeScene = new THREE.Scene();
-            cakeScene.background = new THREE.Color(0x0a0a2a);
-            cakeScene.fog = new THREE.FogExp2(0x0a0a2a, 0.008);
-
-            cakeCamera = new THREE.PerspectiveCamera(38, container.clientWidth / container.clientHeight, 0.1, 1000);
-            cakeCamera.position.set(3.5, 3.2, 4.8);
-            cakeCamera.lookAt(0, 0.7, 0);
-
-            cakeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-            cakeRenderer.setSize(container.clientWidth, container.clientHeight);
-            cakeRenderer.shadowMap.enabled = true;
-            cakeRenderer.setPixelRatio(window.devicePixelRatio);
-            container.appendChild(cakeRenderer.domElement);
-
-            cakeControls = new OrbitControls(cakeCamera, cakeRenderer.domElement);
-            cakeControls.enableZoom = false;
-            cakeControls.enableRotate = false;
-            cakeControls.enablePan = false;
-            cakeControls.enableDamping = false;
-
-            const ambientLight = new THREE.AmbientLight(0x3a3a5a, 0.6);
-            cakeScene.add(ambientLight);
-
-            const mainLight = new THREE.DirectionalLight(0xfff0e0, 1.2);
-            mainLight.position.set(3, 5, 2);
-            mainLight.castShadow = true;
-            cakeScene.add(mainLight);
-
-            const backLight = new THREE.PointLight(0xffaa66, 0.5);
-            backLight.position.set(-2, 2.5, -3);
-            cakeScene.add(backLight);
-
-            const fillLight = new THREE.PointLight(0x88aaff, 0.45);
-            fillLight.position.set(2, 1.8, 2.5);
-            cakeScene.add(fillLight);
-
-            const underLight = new THREE.PointLight(0xff9966, 0.35);
-            underLight.position.set(0, -0.3, 0);
-            cakeScene.add(underLight);
-
-            colorLightObj = new THREE.PointLight(0xffaa88, 0.7);
-            colorLightObj.position.set(1.2, 2, 1);
-            cakeScene.add(colorLightObj);
-
-            const shadowPlaneMat = new THREE.ShadowMaterial({ opacity: 0.4, color: 0x000000, transparent: true, side: THREE.DoubleSide });
-            const shadowPlane = new THREE.Mesh(new THREE.CircleGeometry(2.2, 16), shadowPlaneMat);
-            shadowPlane.rotation.x = -Math.PI / 2;
-            shadowPlane.position.y = -0.68;
-            shadowPlane.receiveShadow = true;
-            cakeScene.add(shadowPlane);
-
-            cakeGroup = new THREE.Group();
-
-            const cakeBodyMat = new THREE.MeshStandardMaterial({ color: 0xf5c6a0, roughness: 0.28, metalness: 0.05 });
-            const cakeBody = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 0.55, 64), cakeBodyMat);
-            cakeBody.castShadow = true;
-            cakeGroup.add(cakeBody);
-
-            const creamMat = new THREE.MeshStandardMaterial({ color: 0xffe4c4, roughness: 0.25 });
-            const creamBase = new THREE.Mesh(new THREE.TorusGeometry(1.62, 0.08, 32, 100), creamMat);
-            creamBase.rotation.x = Math.PI / 2;
-            creamBase.position.y = -0.25;
-            creamBase.castShadow = true;
-            cakeGroup.add(creamBase);
-
-            const creamTop = new THREE.Mesh(new THREE.CylinderGeometry(1.62, 1.62, 0.12, 64), creamMat);
-            creamTop.position.y = 0.32;
-            creamTop.castShadow = true;
-            cakeGroup.add(creamTop);
-
-            const creamBallMat = new THREE.MeshStandardMaterial({ color: 0xffddbb });
-            for (let i = 0; i < 36; i++) {
-                const angle = (i / 36) * Math.PI * 2;
-                const ball = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16), creamBallMat);
-                ball.position.set(1.65 * Math.cos(angle), 0.28, 1.65 * Math.sin(angle));
-                ball.castShadow = true;
-                cakeGroup.add(ball);
-            }
-            for (let i = 0; i < 36; i++) {
-                const angle = (i / 36) * Math.PI * 2;
-                const ball = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16), creamBallMat);
-                ball.position.set(1.65 * Math.cos(angle), 0.44, 1.65 * Math.sin(angle));
-                ball.castShadow = true;
-                cakeGroup.add(ball);
-            }
-
-            const sprinkleColors = [0xff6b6b, 0xffd93d, 0x6bcf7f, 0xe86f6f, 0xffaa44, 0xff88cc];
-            for (let i = 0; i < 100; i++) {
-                const sprinkle = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8), new THREE.MeshStandardMaterial({ color: sprinkleColors[Math.floor(Math.random() * sprinkleColors.length)] }));
-                const angle = Math.random() * Math.PI * 2;
-                const rad = 0.8 + Math.random() * 0.85;
-                sprinkle.position.set(Math.cos(angle) * rad, 0.28 + Math.random() * 0.2, Math.sin(angle) * rad);
-                sprinkle.castShadow = true;
-                cakeGroup.add(sprinkle);
-            }
-
-            const cherryMatRed = new THREE.MeshStandardMaterial({ color: 0xdc5e5e, roughness: 0.2 });
-            const cherry = new THREE.Mesh(new THREE.SphereGeometry(0.16, 32), cherryMatRed);
-            cherry.position.set(0, 0.5, 0);
-            cherry.castShadow = true;
-            cakeGroup.add(cherry);
-
-            const leafMatGreen = new THREE.MeshStandardMaterial({ color: 0x5a9e4e });
-            const leaf1 = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8), leafMatGreen);
-            leaf1.position.set(0.12, 0.58, 0.08);
-            leaf1.scale.set(0.8, 0.3, 0.6);
-            cakeGroup.add(leaf1);
-
-            const leaf2 = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8), leafMatGreen);
-            leaf2.position.set(-0.05, 0.59, 0.13);
-            leaf2.scale.set(0.7, 0.3, 0.5);
-            cakeGroup.add(leaf2);
-
-            const candleMatGold = new THREE.MeshStandardMaterial({ color: 0xffaa88 });
-            const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.1, 0.42, 12), candleMatGold);
-            candle.position.set(0.4, 0.48, 0.3);
-            candle.castShadow = true;
-            cakeGroup.add(candle);
-
-            const flameMatFire = new THREE.MeshStandardMaterial({ color: 0xff6600, emissive: 0xff4400, emissiveIntensity: 0.7 });
-            flameObj = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.12, 8), flameMatFire);
-            flameObj.position.set(0.4, 0.7, 0.3);
-            cakeGroup.add(flameObj);
-
-            cakeScene.add(cakeGroup);
-
-            const starCount = 1200;
-            const starGeo = new THREE.BufferGeometry();
-            const starPositions = new Float32Array(starCount * 3);
-            for (let i = 0; i < starCount; i++) {
-                starPositions[i*3] = (Math.random() - 0.5) * 200;
-                starPositions[i*3+1] = (Math.random() - 0.5) * 80;
-                starPositions[i*3+2] = (Math.random() - 0.5) * 100 - 50;
-            }
-            starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-            const starMatStars = new THREE.PointsMaterial({ color: 0xffdd99, size: 0.07, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
-            const stars = new THREE.Points(starGeo, starMatStars);
-            cakeScene.add(stars);
-
-            function animateStars() {
-                stars.rotation.y += 0.0005;
-                stars.rotation.x += 0.0003;
-                requestAnimationFrame(animateStars);
-            }
-            animateStars();
-
-            const raycaster = new THREE.Raycaster();
-            const mouse = new THREE.Vector2();
-
-            cakeRenderer.domElement.style.cursor = 'pointer';
-            cakeRenderer.domElement.addEventListener('click', (event) => {
-                const rect = cakeRenderer.domElement.getBoundingClientRect();
-                mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-                mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-                raycaster.setFromCamera(mouse, cakeCamera);
-                const clickableObjects = [cakeBody, creamTop, cherry, candle, flameObj];
-                const intersects = raycaster.intersectObjects(clickableObjects, true);
-                if (intersects.length > 0) {
-                    const hitPoint = intersects[0].point;
-                    createGoldenSparkle(hitPoint);
-                    cakeClickCount++;
-                    document.getElementById('cakeClickCount').textContent = cakeClickCount;
-                    if (colorLightObj) colorLightObj.intensity = 1.3;
-                    setTimeout(() => { if(colorLightObj) colorLightObj.intensity = 0.7; }, 200);
-                    if (flameObj) flameObj.material.emissiveIntensity = 1.3;
-                    setTimeout(() => { if(flameObj) flameObj.material.emissiveIntensity = 0.7; }, 150);
-
-                    if (cakeClickCount === 1) {
-                        setTimeout(() => {
-                            const finalMsgDiv = document.createElement('div');
-                            finalMsgDiv.className = 'final-birthday-message';
-                            finalMsgDiv.innerHTML = `
-                                <div style="font-size: 2.5rem;">🎂💕</div>
-                                <p style="font-size: 1.2rem; line-height: 1.7; margin: 15px 0;">
-                                Hey Pinju 💗<br><br>
-                                I don’t know why, but I just had a feeling you might be cutting your cake right now. Made me smile thinking about it.<br><br>
-                                I hope you’re surrounded by love and having a really special moment.<br><br>
-                                Happy birthday Pinju again 🤍
-                                </p>
-                                <div style="font-size: 2rem;">🎉🎂✨</div>
-                            `;
-                            document.getElementById('cake3dSection').appendChild(finalMsgDiv);
-                            create2DConfetti(250);
-                            addSpecialMessages();
-                        }, 300);
-                    }
-                }
-            });
-
-            function createGoldenSparkle(position) {
-                const particleCount = 55;
-                for (let i = 0; i < particleCount; i++) {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 32;
-                    canvas.height = 32;
-                    const ctx = canvas.getContext('2d');
-                    const hue = 45 + Math.random() * 30;
-                    ctx.fillStyle = `hsl(${hue}, 100%, 65%)`;
-                    ctx.beginPath();
-                    ctx.arc(16, 16, 8, 0, 2 * Math.PI);
-                    ctx.fill();
-                    ctx.fillStyle = `hsl(${hue + 10}, 100%, 75%)`;
-                    ctx.beginPath();
-                    ctx.arc(16, 16, 4, 0, 2 * Math.PI);
-                    ctx.fill();
-
-                    const texture = new THREE.CanvasTexture(canvas);
-                    const material = new THREE.SpriteMaterial({ map: texture, blending: THREE.AdditiveBlending, transparent: true });
-                    const sprite = new THREE.Sprite(material);
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 0.035 + Math.random() * 0.06;
-                    sprite.position.copy(position);
-                    sprite.scale.set(0.16, 0.16, 1);
-                    sprite.userData = {
-                        vx: Math.cos(angle) * speed * 0.7,
-                        vy: Math.sin(angle) * speed + 0.1,
-                        vz: Math.sin(angle) * speed * 0.7,
-                        life: 1.0,
-                        decay: 0.013
-                    };
-                    cakeScene.add(sprite);
-                    activeParticles.push(sprite);
-                }
-            }
-
-            function updateParticles() {
-                for (let i = activeParticles.length - 1; i >= 0; i--) {
-                    const p = activeParticles[i];
-                    p.userData.life -= p.userData.decay;
-                    if (p.userData.life <= 0) {
-                        cakeScene.remove(p);
-                        activeParticles.splice(i, 1);
-                        continue;
-                    }
-                    p.position.x += p.userData.vx;
-                    p.position.y += p.userData.vy;
-                    p.position.z += p.userData.vz;
-                    p.userData.vy -= 0.0025;
-                    p.material.opacity = p.userData.life;
-                    p.scale.multiplyScalar(0.97);
-                }
-            }
-
-            document.getElementById('resetCakeBtn').addEventListener('click', () => {
-                cakeClickCount = 0;
-                document.getElementById('cakeClickCount').textContent = cakeClickCount;
-                activeParticles.forEach(p => cakeScene.remove(p));
-                activeParticles = [];
-                const finalMsg = document.querySelector('.final-birthday-message');
-                if(finalMsg) finalMsg.remove();
-                create2DConfetti(30);
-            });
-
-            let animTime = 0;
-            function animate3D() {
-                requestAnimationFrame(animate3D);
-                animTime += 0.016;
-                if (colorLightObj) {
-                    colorLightObj.position.x = 1.3 + Math.sin(animTime) * 0.7;
-                    colorLightObj.position.z = 1.0 + Math.cos(animTime * 0.9) * 0.7;
-                }
-                if (flameObj) {
-                    flameObj.position.y = 0.7 + Math.sin(animTime * 15) * 0.008;
-                    flameObj.scale.setScalar(0.9 + Math.sin(animTime * 20) * 0.1);
-                }
-                updateParticles();
-                cakeRenderer.render(cakeScene, cakeCamera);
-            }
-            animate3D();
-
-            window.addEventListener('resize', () => {
-                if(container) {
-                    const w = container.clientWidth;
-                    const h = container.clientHeight;
-                    cakeCamera.aspect = w / h;
-                    cakeCamera.updateProjectionMatrix();
-                    cakeRenderer.setSize(w, h);
-                }
-            });
-        }
 
         yesFinalBtn.addEventListener('click', () => {
             if(!secondPhaseActive || finalConfirmed) return;
